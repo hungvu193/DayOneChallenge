@@ -1,4 +1,20 @@
-const array = [2, 1, 1, 1, 1, 1, 2, 2];
+const fs = require('fs');
+
+function loadTestCase() {
+  const testCaseArr = [];
+  for (let i = 0; i < 12; i++) {
+    const fileName = i < 10 ? `input00${i}.txt` : `input0${i}.txt`;
+    const testCaseI = fs
+      .readFileSync(`./BalancingArray/ArrayTestCases/${fileName}`)
+      .toString('utf-8');
+    const tcArrayI = testCaseI
+      .split(/\r\n|\n/)
+      .map((el) => +el)
+      .filter((_, index) => index !== 0);
+    testCaseArr.push(tcArrayI);
+  }
+  return testCaseArr;
+}
 
 function sumArr(arr, from, to) {
   let sumArr = 0;
@@ -41,4 +57,14 @@ function balancedSum(rawArray) {
   }
 }
 
-console.log(balancedSum(array));
+// console.log(balancedSum(tcArray1));
+console.log('Loading the testcase...');
+const testCaseArr = loadTestCase();
+console.log(
+  'Loading the testcase successfully, starting calculate the index...'
+);
+for (let i = 0; i < testCaseArr.length; i++) {
+  console.log(
+    `The balanced index of testcase ${i} is: ${balancedSum(testCaseArr[i])}`
+  );
+}
